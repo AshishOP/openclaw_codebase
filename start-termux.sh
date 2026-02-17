@@ -78,13 +78,22 @@ if ! command -v python3 &> /dev/null; then
     if command -v pkg &> /dev/null; then
         pkg install python -y
     elif command -v apt &> /dev/null; then
-        apt install python3 python3-pip -y
+        apt install python3 python3-pip python3-venv -y
     fi
+fi
+
+# Create virtual environment for Athena
+echo "📦 Creating Python virtual environment..."
+if [ ! -d "venv" ]; then
+    python3 -m venv venv
 fi
 
 # Install Athena (minimal for Termux)
 echo "📦 Installing Athena dependencies..."
+source venv/bin/activate
+pip install --upgrade pip
 pip install -r requirements-lite.txt
+deactivate
 
 # Create .env if not exists
 if [ ! -f ".env" ]; then
@@ -115,6 +124,7 @@ OPENCLAW_PID=$!
 
 echo "🧠 Starting Athena MCP Server..."
 cd ~/openclaw_codebase/Athena-Public
+source venv/bin/activate
 python3 -m athena &
 ATHENA_PID=$!
 
@@ -125,7 +135,7 @@ echo "   Athena PID: $ATHENA_PID"
 echo ""
 echo "Press Ctrl+C to stop"
 
-trap "kill $OPENCLAW_PID $ATHENA_PID 2>/dev/null" EXIT
+trap "kill $OPENCLAW_PID $ATHENA_PID 2>/dev/null; deactivate" EXIT
 wait
 STARTUP
 
