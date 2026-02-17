@@ -48,17 +48,34 @@ if ! command -v pnpm &> /dev/null; then
     npm install -g pnpm
 fi
 
-# Install dependencies
-echo "📦 Installing OpenClaw dependencies (this may take a while)..."
-pnpm install
+# Option 1: Install from npm (recommended for Termux)
+echo "📦 Installing OpenClaw from npm..."
+npm install -g openclaw@latest
 
-# Build OpenClaw
-echo "🔨 Building OpenClaw..."
-pnpm build
-
-# Install OpenClaw globally
-echo "🔗 Installing OpenClaw CLI globally..."
-npm link
+# Verify installation
+if ! command -v openclaw &> /dev/null; then
+    echo "⚠️ npm install failed, trying from source..."
+    
+    # Install dependencies
+    echo "📦 Installing OpenClaw dependencies (this may take a while)..."
+    pnpm install
+    
+    # Create placeholder A2UI bundle if missing (allows build to continue)
+    A2UI_BUNDLE="src/canvas-host/a2ui/a2ui.bundle.js"
+    if [ ! -f "$A2UI_BUNDLE" ]; then
+        echo "📝 Creating placeholder A2UI bundle..."
+        mkdir -p src/canvas-host/a2ui
+        echo "// A2UI placeholder - canvas features limited" > "$A2UI_BUNDLE"
+    fi
+    
+    # Build OpenClaw
+    echo "🔨 Building OpenClaw..."
+    pnpm exec tsdown
+    
+    # Install OpenClaw globally
+    echo "🔗 Installing OpenClaw CLI globally..."
+    npm link
+fi
 
 # Run onboarding
 echo ""
