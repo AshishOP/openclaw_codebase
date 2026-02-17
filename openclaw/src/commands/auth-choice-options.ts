@@ -160,6 +160,12 @@ const AUTH_CHOICE_GROUP_DEFS: {
     hint: "Any OpenAI or Anthropic compatible endpoint",
     choices: ["custom-api-key"],
   },
+  {
+    value: "nvidia",
+    label: "NVIDIA NIM",
+    hint: "Kimi, GLM, DeepSeek via NVIDIA API",
+    choices: ["nvidia-api-key"],
+  },
 ];
 
 const BASE_AUTH_CHOICE_OPTIONS: ReadonlyArray<AuthChoiceOption> = [
@@ -297,6 +303,11 @@ const BASE_AUTH_CHOICE_OPTIONS: ReadonlyArray<AuthChoiceOption> = [
     hint: "Faster, higher output cost",
   },
   { value: "custom-api-key", label: "Custom Provider" },
+  {
+    value: "nvidia-api-key",
+    label: "NVIDIA NIM API key",
+    hint: "Kimi K2, GLM-4, DeepSeek-R1 via NVIDIA NIM",
+  },
 ];
 
 export function formatAuthChoiceChoicesForCli(params?: {

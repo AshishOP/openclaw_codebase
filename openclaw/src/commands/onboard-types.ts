@@ -47,6 +47,7 @@ export type AuthChoice =
   | "xai-api-key"
   | "qianfan-api-key"
   | "custom-api-key"
+  | "nvidia-api-key"
   | "skip";
 export type AuthChoiceGroupId =
   | "openai"
@@ -71,7 +72,8 @@ export type AuthChoiceGroupId =
   | "huggingface"
   | "qianfan"
   | "xai"
-  | "custom";
+  | "custom"
+  | "nvidia";
 export type GatewayAuthChoice = "token" | "password";
 export type ResetScope = "config" | "config+creds+sessions" | "full";
 export type GatewayBind = "loopback" | "lan" | "auto" | "custom" | "tailnet";
@@ -120,6 +122,7 @@ export type OnboardOptions = {
   opencodeZenApiKey?: string;
   xaiApiKey?: string;
   qianfanApiKey?: string;
+  nvidiaApiKey?: string;
   customBaseUrl?: string;
   customApiKey?: string;
   customModelId?: string;
