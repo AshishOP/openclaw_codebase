@@ -1,0 +1,17 @@
+# Athena SDK - Lite Dependencies (for Termux/mobile)
+# Install: pip install -r requirements-lite.txt
+#
+# Minimal dependencies for MCP server + basic search.
+# NO heavy ML packages (torch, sentence-transformers).
+
+# Core
+python-dotenv>=1.0.0
+requests>=2.31.0
+pydantic>=2.0.0
+
+# MCP Server (Model Context Protocol)
+fastmcp>=2.0.0
+
+# Optional: Only if using cloud vector search
+# google-generativeai>=0.3.0
+# supabase>=2.0.0

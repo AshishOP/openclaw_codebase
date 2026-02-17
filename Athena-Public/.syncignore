@@ -1,0 +1,29 @@
+# =============================================================================
+# .syncignore — Files that must NEVER be synced from Root → Athena-Public
+# =============================================================================
+# This file documents which paths from the private Project Athena root
+# must never be cherry-picked or copied into the public repository.
+# Used by contributors and sync scripts as a safety check.
+
+# Personal System Prompt (contains personal psychological data)
+.framework/
+
+# Real Session Data
+.context/memories/session_logs/
+.context/memories/case_studies/CS-*
+
+# Personal Profile & Psychology
+**/User_Profile*.md
+**/Psychology_L1L5*.md
+**/Constraints_Master.md
+**/Session_Observations.md
+
+# Private Agent State
+.agent/state/
+.agent/inputs/
+.agent/graphrag/
+
+# API Keys & Secrets
+.env
+*.key
+*.pem

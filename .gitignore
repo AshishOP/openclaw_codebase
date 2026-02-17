@@ -1,0 +1,70 @@
+# Environment files (contain API keys!)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Cache
+.cache/
+.npm/
+.cargo/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Session/data files
+.agent/state/
+.agent/inputs/
+.context/memories/session_logs/
+
+# Temporary files
+*.tmp
+*.temp
+*.tar.gz
+*.b64
+
+# SSH helper scripts (not needed in repo)
+ssh_termux.py
+ssh_termux.sh
+scp_to_termux.py
+copy_*.py
+final_copy.py
+simple_copy.py
+
+# Athena runtime files
+athenad.log
+embedding_cache.json

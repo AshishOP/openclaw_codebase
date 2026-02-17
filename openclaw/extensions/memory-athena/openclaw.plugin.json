@@ -1,0 +1,59 @@
+{
+  "id": "memory-athena",
+  "kind": "memory",
+  "uiHints": {
+    "enabled": {
+      "label": "Enabled",
+      "help": "Enable Athena memory integration"
+    },
+    "transport": {
+      "label": "Transport",
+      "help": "Connection method (stdio for subprocess, sse for HTTP)"
+    },
+    "pythonPath": {
+      "label": "Python Path",
+      "placeholder": "python3",
+      "help": "Path to Python executable"
+    },
+    "athenaProjectDir": {
+      "label": "Athena Project Directory",
+      "placeholder": "../Athena-Public",
+      "help": "Path to Athena-Public directory"
+    },
+    "sseUrl": {
+      "label": "SSE URL",
+      "placeholder": "http://localhost:8765",
+      "help": "URL for SSE transport (used when transport=sse)"
+    },
+    "toolPrefix": {
+      "label": "Tool Prefix",
+      "placeholder": "athena_",
+      "help": "Prefix for tool names"
+    }
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "enabled": {
+        "type": "boolean"
+      },
+      "transport": {
+        "type": "string",
+        "enum": ["stdio", "sse"]
+      },
+      "pythonPath": {
+        "type": "string"
+      },
+      "athenaProjectDir": {
+        "type": "string"
+      },
+      "sseUrl": {
+        "type": "string"
+      },
+      "toolPrefix": {
+        "type": "string"
+      }
+    }
+  }
+}
