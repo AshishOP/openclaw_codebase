@@ -136,8 +136,8 @@ export class AthenaClient {
       });
 
       // Convert MCP result to our AthenaToolResult format
-      const content = result.content.map((block): { type: "text"; text: string } => {
-        if (block.type === "text") {
+      const content = (result.content as Array<{ type: string; text?: string }>).map((block): { type: "text"; text: string } => {
+        if (block.type === "text" && block.text) {
           return { type: "text", text: block.text };
         }
         return { type: "text", text: JSON.stringify(block) };
@@ -145,7 +145,7 @@ export class AthenaClient {
 
       return {
         content,
-        isError: result.isError,
+        isError: Boolean(result.isError),
       };
     } catch (error) {
       return {
