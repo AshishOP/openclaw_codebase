@@ -69,7 +69,9 @@ export class AthenaClient {
     const cwd = this.config.athenaProjectDir || process.cwd();
 
     // Set PYTHONPATH to include the src directory so 'athena' module can be found
-    const srcPath = cwd;
+    // athena module is at: athenaProjectDir/src/athena/
+    // So PYTHONPATH should be athenaProjectDir/src
+    const srcPath = cwd.endsWith('/src') ? cwd : `${cwd}/src`;
     const env: Record<string, string> = {
       ...process.env,
       PYTHONPATH: srcPath,
