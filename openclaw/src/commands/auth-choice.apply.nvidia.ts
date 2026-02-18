@@ -71,7 +71,7 @@ export async function applyAuthChoiceNvidia(
         ...cfg.agents,
         defaults: {
           ...cfg.agents?.defaults,
-          model: NVIDIA_DEFAULT_MODEL_REF,
+          model: { primary: NVIDIA_DEFAULT_MODEL_REF },
         },
       },
     }),
