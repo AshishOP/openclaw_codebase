@@ -1,0 +1,75 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.2.15",
+    "lastTouchedAt": "2026-02-18T06:15:00.000Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-02-17T20:52:28.806Z",
+    "lastRunVersion": "2026.2.15",
+    "lastRunCommand": "onboard",
+    "lastRunMode": "local"
+  },
+  "models": {
+    "providers": {
+      "nvidia": {
+        "baseUrl": "https://integrate.api.nvidia.com/v1",
+        "apiKey": "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",
+        "api": "openai-completions",
+        "models": [
+          {"id": "moonshotai/kimi-k2.5", "name": "Moonshot Kimi K2.5", "reasoning": false, "input": ["text"], "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0}, "contextWindow": 131072, "maxTokens": 8192},
+          {"id": "moonshotai/kimi-k2-instruct", "name": "Moonshot Kimi K2 Instruct", "reasoning": false, "input": ["text"], "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0}, "contextWindow": 131072, "maxTokens": 8192},
+          {"id": "moonshotai/kimi-k2-thinking", "name": "Moonshot Kimi K2 Thinking", "reasoning": true, "input": ["text"], "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0}, "contextWindow": 131072, "maxTokens": 16384},
+          {"id": "z-ai/glm5", "name": "Z-AI GLM5", "reasoning": false, "input": ["text"], "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0}, "contextWindow": 131072, "maxTokens": 8192},
+          {"id": "z-ai/glm4.7", "name": "Z-AI GLM4.7", "reasoning": false, "input": ["text"], "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0}, "contextWindow": 131072, "maxTokens": 8192},
+          {"id": "deepseek-ai/deepseek-v3.2", "name": "DeepSeek V3.2", "reasoning": true, "input": ["text"], "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0}, "contextWindow": 131072, "maxTokens": 8192},
+          {"id": "deepseek-ai/deepseek-r1-distill-llama-8b", "name": "DeepSeek R1 Distill Llama 8B", "reasoning": true, "input": ["text"], "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0}, "contextWindow": 131072, "maxTokens": 8192},
+          {"id": "nvidia/llama-3.1-nemotron-70b-instruct", "name": "NVIDIA Nemotron 70B", "reasoning": false, "input": ["text"], "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0}, "contextWindow": 131072, "maxTokens": 4096},
+          {"id": "meta/llama-3.3-70b-instruct", "name": "Meta Llama 3.3 70B", "reasoning": false, "input": ["text"], "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0}, "contextWindow": 131072, "maxTokens": 4096},
+          {"id": "nvidia/mistral-nemo-minitron-8b-8k-instruct", "name": "NVIDIA Mistral NeMo 8B", "reasoning": false, "input": ["text"], "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0}, "contextWindow": 8192, "maxTokens": 2048}
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {"primary": "nvidia/z-ai/glm5"},
+      "models": {"nvidia/z-ai/glm5": {}},
+      "workspace": "/root/.openclaw/workspace",
+      "compaction": {"mode": "safeguard"},
+      "maxConcurrent": 4,
+      "subagents": {"maxConcurrent": 8}
+    }
+  },
+  "messages": {"ackReactionScope": "group-mentions"},
+  "commands": {"native": "auto", "nativeSkills": "auto"},
+  "channels": {
+    "whatsapp": {"dmPolicy": "allowlist", "selfChatMode": true, "allowFrom": ["+918806766596"], "groupPolicy": "allowlist", "debounceMs": 0, "mediaMaxMb": 50},
+    "telegram": {"enabled": true, "dmPolicy": "pairing", "botToken": "8409577315:AAH9kJiqwx3r3O5yG-BgGggR4mYxUC3csnU", "groupPolicy": "allowlist", "streamMode": "partial"}
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {"mode": "token", "token": "dd124bae2a07e3e8a9420eb044bd93757ee6f3076021fa11"},
+    "tailscale": {"mode": "off", "resetOnExit": false},
+    "nodes": {"denyCommands": ["camera.snap", "camera.clip", "screen.record", "calendar.add", "contacts.add", "reminders.add"]}
+  },
+  "plugins": {
+    "enabled": true,
+    "slots": {"memory": "memory-athena"},
+    "load": {"paths": ["/root/openclaw_codebase/openclaw/extensions/memory-athena"]},
+    "entries": {
+      "telegram": {"enabled": true},
+      "whatsapp": {"enabled": true},
+      "memory-athena": {
+        "enabled": true,
+        "config": {
+          "transport": "stdio",
+          "pythonPath": "/root/openclaw_codebase/Athena-Public/venv/bin/python3",
+          "athenaProjectDir": "/root/openclaw_codebase/Athena-Public",
+          "toolPrefix": "athena_"
+        }
+      }
+    }
+  }
+}
