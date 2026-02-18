@@ -216,6 +216,11 @@ const athenaMemoryPlugin = {
             rerank?: boolean;
           };
 
+          // Ensure connected before calling tool
+          if (!athenaClient?.isConnected()) {
+            await athenaClient?.connect();
+          }
+
           const result = await athenaClient!.callTool("smart_search", {
             query,
             limit,
@@ -250,6 +255,11 @@ const athenaMemoryPlugin = {
             bullets?: string[];
           };
 
+          // Ensure connected before calling tool
+          if (!athenaClient?.isConnected()) {
+            await athenaClient?.connect();
+          }
+
           const result = await athenaClient!.callTool("quicksave", {
             summary,
             bullets: bullets || null,
@@ -276,6 +286,11 @@ const athenaMemoryPlugin = {
         async execute(_toolCallId, params) {
           const { lines = 50 } = params as { lines?: number };
 
+          // Ensure connected before calling tool
+          if (!athenaClient?.isConnected()) {
+            await athenaClient?.connect();
+          }
+
           const result = await athenaClient!.callTool("recall_session", { lines });
 
           return {
@@ -295,6 +310,11 @@ const athenaMemoryPlugin = {
         description: "List all active memory directories.",
         parameters: Type.Object({}),
         async execute(_toolCallId) {
+          // Ensure connected before calling tool
+          if (!athenaClient?.isConnected()) {
+            await athenaClient?.connect();
+          }
+
           const result = await athenaClient!.callTool("list_memory_paths", {});
           return {
             content: result.content,
@@ -313,6 +333,11 @@ const athenaMemoryPlugin = {
         description: "Run a health audit of Athena's core services.",
         parameters: Type.Object({}),
         async execute(_toolCallId) {
+          // Ensure connected before calling tool
+          if (!athenaClient?.isConnected()) {
+            await athenaClient?.connect();
+          }
+
           const result = await athenaClient!.callTool("health_check", {});
           return {
             content: result.content,

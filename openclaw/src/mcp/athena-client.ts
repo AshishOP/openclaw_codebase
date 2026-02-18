@@ -68,11 +68,18 @@ export class AthenaClient {
     const pythonPath = this.config.pythonPath || "python3";
     const cwd = this.config.athenaProjectDir || process.cwd();
 
+    // Set PYTHONPATH to include the src directory so 'athena' module can be found
+    const srcPath = cwd;
+    const env: Record<string, string> = {
+      ...process.env,
+      PYTHONPATH: srcPath,
+    } as Record<string, string>;
+
     const transport = new StdioClientTransport({
       command: pythonPath,
       args: ["-m", "athena.mcp_server"],
       cwd,
-      env: { ...process.env } as Record<string, string>,
+      env,
     });
 
     this.transport = transport;
