@@ -61,7 +61,8 @@ export const athenaMemoryConfigSchema = {
       "Athena memory config",
     );
 
-    const enabled = cfg.enabled === true;
+    // enabled defaults to true if not explicitly set to false
+    const enabled = cfg.enabled !== false;
     const transport = cfg.transport === "sse" ? "sse" : "stdio";
 
     const pythonPath =

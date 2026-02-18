@@ -174,17 +174,12 @@ const athenaMemoryPlugin = {
   configSchema: athenaMemoryConfigSchema,
 
   register(api: OpenClawPluginApi) {
-    const cfg = athenaMemoryConfigSchema.parse(api.pluginConfig);
+    // api.pluginConfig contains the config object from entries.memory-athena.config
+    // If plugin is selected via slots.memory, it's auto-enabled
+    const cfg = athenaMemoryConfigSchema.parse(api.pluginConfig || {});
 
-    if (typeof cfg === "boolean") {
-      api.logger.warn("memory-athena: plugin disabled (enabled=false)");
-      return;
-    }
-
-    if (!cfg.enabled) {
-      api.logger.info("memory-athena: plugin disabled");
-      return;
-    }
+    // Log what we received for debugging
+    api.logger.info(`memory-athena: received config: ${JSON.stringify(api.pluginConfig)}`);
 
     api.logger.info(
       `memory-athena: plugin registered (transport: ${cfg.transport}, project: ${cfg.athenaProjectDir})`
