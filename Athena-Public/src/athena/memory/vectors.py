@@ -1,9 +1,10 @@
 """
-athena.memory.vectors — Thread-Safe v1.2
+athena.memory.vectors — Thread-Safe v1.3 with Local Mode
 
 Optimizations:
     - Thread-Local Clients: Prevents httpx connection state corruption in parallel loops.
     - Atomic Cache: PersistentEmbeddingCache now uses Locks and Atomic Writes.
+    - Local Mode: When ATHENA_MODE=local, uses ChromaDB instead of Supabase.
 """
 
 import os
@@ -14,6 +15,22 @@ import threading
 import tempfile
 from pathlib import Path
 from typing import List, Dict, Any, Optional
+
+# Check for local mode
+ATHENA_MODE = os.getenv("ATHENA_MODE", "cloud").lower()
+LOCAL_MODE = ATHENA_MODE in ("local", "true", "1")
+
+if LOCAL_MODE:
+    # Import local mode implementation
+    from athena.memory.local_vectors import (
+        get_embedding as _local_get_embedding,
+        get_client as _local_get_client,
+        search_rpc as _local_search_rpc,
+        store_memory,
+        search_memories,
+        count_memories,
+        clear_all_memories,
+    )
 
 # Global cache instance
 _embedding_cache = None
@@ -33,7 +50,11 @@ _thread_local = threading.local()
 
 
 def get_client() -> Any:
-    """Returns a thread-safe Supabase client instance."""
+    """Returns a thread-safe client instance (ChromaDB in local mode, Supabase otherwise)."""
+    if LOCAL_MODE:
+        return _local_get_client()
+    
+    # Cloud mode - use Supabase
     if not hasattr(_thread_local, "client"):
         from supabase import create_client
         from dotenv import load_dotenv
@@ -118,9 +139,14 @@ def _hash_text(text: str) -> str:
 
 def get_embedding(text: str) -> List[float]:
     """Generate embedding with persistent disk caching.
-
-    Uses gemini-embedding-001 (3072 dimensions).
+    
+    In local mode: Uses local_vectors implementation (ChromaDB + optional sentence-transformers)
+    In cloud mode: Uses Gemini API (gemini-embedding-001, 3072 dimensions)
     """
+    if LOCAL_MODE:
+        return _local_get_embedding(text)
+    
+    # Cloud mode - use Gemini
     text_hash = _hash_text(text)
     cache = get_embedding_cache()
     cached = cache.get(text_hash)
@@ -154,6 +180,15 @@ def get_embedding(text: str) -> List[float]:
 def search_rpc(
     rpc_name: str, query_embedding: List[float], limit: int = 5, threshold: float = 0.3
 ) -> List[Dict]:
+    """Search using vector similarity.
+    
+    In local mode: Uses ChromaDB local search
+    In cloud mode: Uses Supabase RPC functions
+    """
+    if LOCAL_MODE:
+        return _local_search_rpc(rpc_name, query_embedding, limit, threshold)
+    
+    # Cloud mode - use Supabase RPC
     client = get_client()
     result = client.rpc(
         rpc_name,
