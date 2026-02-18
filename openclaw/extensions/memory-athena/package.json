@@ -5,7 +5,8 @@
   "description": "OpenClaw Athena memory plugin - long-term memory via Athena MCP server",
   "type": "module",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.26.0"
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "@sinclair/typebox": "^0.34.0"
   },
   "devDependencies": {
     "openclaw": "workspace:*"
