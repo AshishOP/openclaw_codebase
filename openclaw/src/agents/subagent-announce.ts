@@ -622,7 +622,7 @@ export async function runSubagentAnnounceFlow(params: {
         idempotencyKey: directIdempotencyKey,
       },
       expectFinal: true,
-      timeoutMs: 15_000,
+      timeoutMs: 120_000,
     });
 
     didAnnounce = true;
